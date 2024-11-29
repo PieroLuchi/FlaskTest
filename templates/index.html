@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flask Button Example</title>
+    <title>Name Activator</title>
 </head>
 <body>
-    <h1>Call API with Button</h1>
-    <form action="/api" method="post">
-        <input type="text" name="data" placeholder="Enter some data" required>
-        <button type="submit">Call API</button>
+    <h1>Gestore attivazione AiEcO</h1>
+    <form method="POST">
+        <label for="name">Scegli un edificio:</label>
+        <select name="name" id="name">
+            {% for name in names %}
+                <option value="{{ name }}">{{ name }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <button type="submit" name="action" value="Activate">Activate</button>
+        <button type="submit" name="action" value="Deactivate">Deactivate</button>
     </form>
 </body>
 </html>

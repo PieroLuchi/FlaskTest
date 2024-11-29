@@ -1,18 +1,32 @@
-from flask import Flask, render_template,request
+from flask import Flask, render_template, request
+import requests
+app = Flask(__name__)
 
-app=Flask(__name__)
+# Sample list of names
+# names = ["Hermada", "Checchi", "Maestri del Lavoro", "Comasina"]
+# codes = ["HE","CE12","MDL4","CO87"]
 
-@app.route('/')
+names_with_codes = {
+    "Hermada": "HE",
+    "Checchi": "CE12",
+    "Maestri del Lavoro": "MDL4",
+    "Comasina": "CO87"
+}
+@app.route('/', methods=['GET','POST'])
 def index():
-    return render_template('index.html')
+    if request.method == 'POST':
+        selected_name = request.form.get('name')
+        action = request.form.get('action')
+        code = names_with_codes.get(selected_name, "Unknown Code")
 
-@app.route('/api', methods=['POST'])
-def api():
-    # This function will be called when the button is pressed
-    data = request.form['data']  # Retrieve data from the form
+        if action == 'Activate':
+            print(f"{selected_name} with code {code} activated ")
+            requests.post(url=f'https://abitarefunctionapp.azurewebsites.net/api/AiEcoStateSelector?nome_edificio={code}&stato_attivazione=True')
+        elif action == 'Deactivate':
+            print(f"{selected_name} with code {code} deactivated")
+            requests.post(url=f'https://abitarefunctionapp.azurewebsites.net/api/AiEcoStateSelector?nome_edificio={code}&stato_attivazione=False')
     
-    print(f"Received data: {data}")  # Process the data as needed
-    return "Data received!"
+    return render_template('index.html', names=names_with_codes.keys())
 
 if __name__ == '__main__':
     app.run(debug=True)
