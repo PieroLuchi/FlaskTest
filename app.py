@@ -10,7 +10,10 @@ names_with_codes = {
     "Hermada": "HE",
     "Checchi": "CE12",
     "Maestri del Lavoro": "MDL4",
-    "Comasina": "CO87"
+    "Comasina": "CO87",
+    "Zanoli":"ZA15",
+    "Grassini":"GRA5",
+    "Empoli":"EMP1"
 }
 @app.route('/', methods=['GET','POST'])
 def index():
